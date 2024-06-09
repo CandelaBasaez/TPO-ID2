@@ -8,33 +8,46 @@ public class Usuario {
     private String nombre;
     private String apellido;
     private String direccion;
-    private String posicionIVA;
+    private String condIVA;
 
     public Usuario() {}
 
-    public Usuario(int dni, String nombre, String apellido, String posicionIVA) {
+    public Usuario(int dni, String nombre, String apellido, String condIVA, String direccion) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.posicionIVA = posicionIVA;
+        this.condIVA = condIVA;
+        this.direccion = direccion;
     }
 
+//    public void guardarEnRedis() {
+//        try (Jedis jedis = new Jedis("localhost", 6379)) {
+//            jedis.hset("usuario:" + dni, "dni", String.valueOf(dni));
+//            jedis.hset("usuario:" + dni, "nombre", nombre);
+//            jedis.hset("usuario:" + dni, "apellido", apellido);
+//            jedis.hset("usuario:" + dni, "condIVA", condIVA);
+//            jedis.hset("usuario:" + dni, "direccion", direccion);
+//        }
+//    }
+
     public void guardarEnRedis() {
-        try (Jedis jedis = new Jedis("localhost")) {
+        try (Jedis jedis = new Jedis("localhost", 6379)) {
             jedis.hset("usuario:" + dni, "dni", String.valueOf(dni));
             jedis.hset("usuario:" + dni, "nombre", nombre);
             jedis.hset("usuario:" + dni, "apellido", apellido);
-            jedis.hset("usuario:" + dni, "posicionIVA", posicionIVA);
+            jedis.hset("usuario:" + dni, "condIVA", condIVA);
+            jedis.hset("usuario:" + dni, "direccion", direccion);
         }
     }
 
     public static Usuario cargarDesdeRedis(int dni) {
-        try (Jedis jedis = new Jedis("localhost")) {
+        try (Jedis jedis = new Jedis("redis://localhost:6379")) {
             if (jedis.exists("usuario:" + dni)) {
                 String nombre = jedis.hget("usuario:" + dni, "nombre");
                 String apellido = jedis.hget("usuario:" + dni, "apellido");
-                String posicionIVA = jedis.hget("usuario:" + dni, "posicionIVA");
-                return new Usuario(dni, nombre, apellido, posicionIVA);
+                String condIVA = jedis.hget("usuario:" + dni, "condIVA");
+                String direccion = jedis.hget("usuario:" + dni, "direccion");
+                return new Usuario(dni, nombre, apellido, condIVA, direccion);
             } else {
                 return null;
             }
@@ -73,11 +86,13 @@ public class Usuario {
         this.direccion = direccion;
     }
 
-    public String getPosicionIVA() {
-        return posicionIVA;
+    public String getCondIVA() {
+        return condIVA;
     }
 
-    public void setPosicionIVA(String posicionIVA) {
-        this.posicionIVA = posicionIVA;
+    public void setCondIVA(String condIVA) {
+        this.condIVA = condIVA;
     }
+
+
 }
