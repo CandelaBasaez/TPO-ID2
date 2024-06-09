@@ -2,8 +2,7 @@ package model.entity;
 
 import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
-import model.entity.dto.ProductoFacturaDTO;
-import model.entity.neo.Producto;
+import model.dto.ProductoFacturaDTO;
 import org.bson.Document;
 
 import java.util.ArrayList;

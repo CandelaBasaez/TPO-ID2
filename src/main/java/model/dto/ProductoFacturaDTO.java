@@ -1,4 +1,4 @@
-package model.entity.dto;
+package model.dto;
 
 public class ProductoFacturaDTO {
     private int id;

@@ -20,15 +20,6 @@ public class Usuario {
         this.direccion = direccion;
     }
 
-//    public void guardarEnRedis() {
-//        try (Jedis jedis = new Jedis("localhost", 6379)) {
-//            jedis.hset("usuario:" + dni, "dni", String.valueOf(dni));
-//            jedis.hset("usuario:" + dni, "nombre", nombre);
-//            jedis.hset("usuario:" + dni, "apellido", apellido);
-//            jedis.hset("usuario:" + dni, "condIVA", condIVA);
-//            jedis.hset("usuario:" + dni, "direccion", direccion);
-//        }
-//    }
 
     public void guardarEnRedis() {
         try (Jedis jedis = new Jedis("localhost", 6379)) {

@@ -4,6 +4,10 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import model.entity.Usuario;
+import org.neo4j.driver.AuthTokens;
+import org.neo4j.driver.Driver;
+import org.neo4j.driver.GraphDatabase;
+import org.neo4j.driver.Session;
 import redis.clients.jedis.Jedis;
 
 import java.util.ArrayList;
@@ -13,11 +17,27 @@ public class CargadoDatosPrueba {
 
     public static void InicializadoSistema() {
         CreadoColeccionesMongo();
-        CreadoDeDatosPruebaRedis();
-
+        CreadoDeUsuarios();
+        CargadoProductos();
     }
 
-    private static void CreadoDeDatosPruebaRedis() {
+    private static void CargadoProductos() {
+        try (Driver driver = GraphDatabase.driver("bolt://localhost:7687", AuthTokens.basic("neo4j", "contraCande"))) {
+            // Crea una nueva sesión
+            try (Session session = driver.session()) {
+                // Ejecuta la sentencia para crear los nodos
+                session.run("CREATE (cu:Producto{codigoProducto:1,nombre:'Cuaderno',descripcion:'Cuaderno tamaño A4 anillado',precioUnitario:1500}), " +
+                        "(la:Producto{codigoProducto:2,nombre:'Lapicera azul',descripcion:'Lapicera tinta azul',precioUnitario:300}), " +
+                        "(go:Producto{codigoProducto:3,nombre:'Marcador rojo',descripcion:'Marcador tinta roja para pizarra',precioUnitario:700}), " +
+                        "(re:Producto{codigoProducto:4,nombre:'Resaltador',descripcion:'Resaltador tinta amarilla',precioUnitario:500}), " +
+                        "(lp:Producto{codigoProducto:5,nombre:'Lapiz',descripcion:'Lapiz de garfito HB',precioUnitario:300})");
+            }
+        }
+    }
+
+    private static void CreadoDeUsuarios() {
+        int i = 1;
+
         List<Usuario> usuariosTest = new ArrayList<>();
 
         usuariosTest.add(new Usuario(44560825, "Candela", "González", "Monotributista", "Arroyo 48"));
@@ -35,6 +55,15 @@ public class CargadoDatosPrueba {
                 jedis.hset("usuario:" + user.getDni(), "condIVA", user.getCondIVA());
                 jedis.hset("usuario:" + user.getDni(), "direccion", user.getDireccion());
             }
+
+            try (Driver driver = GraphDatabase.driver("bolt://localhost:7687", AuthTokens.basic("neo4j", "contraCande"))) {
+                // Crea una nueva sesión
+                try (Session session = driver.session()) {
+                    // Ejecuta la sentencia para crear los nodos de tipo Carrito
+                    session.run("CREATE (c" + i + ":Carrito{userDNI:" + user.getDni() + "})");
+                }
+            }
+            i++;
         }
 
         try (Jedis jedis = new Jedis("localhost", 6379)) {
@@ -45,7 +74,6 @@ public class CargadoDatosPrueba {
             jedis.zadd("categorias", 110, "47821590");
             jedis.zadd("categorias", 110, "31059874");
         }
-
     }
 
     private static void CreadoColeccionesMongo() {

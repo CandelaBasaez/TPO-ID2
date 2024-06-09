@@ -4,14 +4,12 @@ import org.neo4j.driver.AuthTokens;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.GraphDatabase;
 import org.neo4j.driver.Query;
-import org.neo4j.ogm.annotation.Id;
-import org.neo4j.ogm.annotation.NodeEntity;
 
 import static org.neo4j.driver.Values.parameters;
 
-@NodeEntity
+
 public class Producto {
-    @Id
+
     private int codigoProducto;
     private String nombre;
     private String descripcion;

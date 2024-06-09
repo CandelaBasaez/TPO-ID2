@@ -28,11 +28,11 @@
       <version>5.0.2</version>
     </dependency>
 
-    <dependency>
-      <groupId>org.neo4j.driver</groupId>
-      <artifactId>neo4j-java-driver</artifactId>
-      <version>5.20.0</version>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.neo4j.driver</groupId>-->
+<!--      <artifactId>neo4j-java-driver</artifactId>-->
+<!--      <version>5.20.0</version>-->
+<!--    </dependency>-->
 
     <!-- https://mvnrepository.com/artifact/org.neo4j/neo4j -->
     <dependency>
@@ -41,12 +41,13 @@
       <version>5.20.0</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/org.neo4j/neo4j-ogm-core -->
     <dependency>
-      <groupId>org.neo4j</groupId>
-      <artifactId>neo4j-ogm-core</artifactId>
-      <version>4.0.6</version>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.2.3</version> <!-- Puedes usar la versión más reciente -->
     </dependency>
+
+
 
 
   </dependencies>
