@@ -45,6 +45,12 @@ public class Usuario {
         }
     }
 
+    public void agregarCategoria(int tiempo,int dni){
+        try (Jedis jedis = new Jedis("localhost", 6379)){
+            jedis.zadd("categorias",tiempo, String.valueOf(dni));
+        }
+    }
+
     public int getDni() {
         return dni;
     }
