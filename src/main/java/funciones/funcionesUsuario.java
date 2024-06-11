@@ -4,8 +4,12 @@ import model.entity.Usuario;
 import org.neo4j.driver.*;
 import redis.clients.jedis.Jedis;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
+
+import static model.entity.Usuario.cargarDesdeRedis;
 
 public class funcionesUsuario {
 
@@ -29,26 +33,49 @@ public class funcionesUsuario {
         return usuario;
     }
 
-    public static void mostarUsuariosOrdenados() {
+    public static void mostrarUsuariosTOP() {
+
         try (Jedis jedis = new Jedis("localhost", 6379)) {
-            jedis.zrevrange("categorias", 0, -1);
+            List<String> dniUsuarios = jedis.zrangeByScore("categorias", Double.parseDouble("(240"), Double.parseDouble("inf"));
+
+            for (String dniUsuario : dniUsuarios) {
+                int dni = Integer.parseInt(dniUsuario);
+                Usuario usuario = cargarDesdeRedis(dni);
+                if (usuario != null) {
+                    usuario.toString();
+                }
+            }
         }
     }
-    public static void mostrarUsuariosTOP(){
+    public static void mostrarUsuariosMEDIUM() {
+
         try (Jedis jedis = new Jedis("localhost", 6379)) {
-            jedis.zrangeByScore("categorias", Double.parseDouble("(240"), Double.parseDouble("inf"));
+            List<String> dniUsuarios = jedis.zrangeByScore("categorias",120,240);
+
+            for (String dniUsuario : dniUsuarios) {
+                int dni = Integer.parseInt(dniUsuario);
+                Usuario usuario = cargarDesdeRedis(dni);
+                if (usuario != null) {
+                    usuario.toString();
+                }
+            }
         }
     }
-    public static void mostrarUsuariosMEDIUM(){
+    public static void mostrarUsuariosLOW() {
+
         try (Jedis jedis = new Jedis("localhost", 6379)) {
-            jedis.zrangeByScore("categorias",120,240);
+            List<String> dniUsuarios = jedis.zrangeByScore("categorias",0, Double.parseDouble("(120"));
+
+            for (String dniUsuario : dniUsuarios) {
+                int dni = Integer.parseInt(dniUsuario);
+                Usuario usuario = cargarDesdeRedis(dni);
+                if (usuario != null) {
+                    usuario.toString();
+                }
+            }
         }
     }
-    public static void mostrarUsuariosLOW(){
-        try (Jedis jedis = new Jedis("localhost", 6379)) {
-            jedis.zrangeByScore("categorias",0, Double.parseDouble("(120"));
-        }
-    }
+
     public static void asignarCategoriaUsuario(int dni){
         Scanner time = new Scanner(System.in);
         int tiempo = time.nextInt();

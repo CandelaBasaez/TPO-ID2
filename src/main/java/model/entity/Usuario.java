@@ -91,5 +91,14 @@ public class Usuario {
         this.condIVA = condIVA;
     }
 
-
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "dni=" + dni +
+                ", nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", direccion='" + direccion + '\'' +
+                ", condIVA='" + condIVA + '\'' +
+                '}';
+    }
 }
