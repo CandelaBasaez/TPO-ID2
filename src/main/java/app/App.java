@@ -1,6 +1,8 @@
 package app;
 
 import funciones.funcionesCatalogo;
+import funciones.funcionesFacturas;
+import funciones.funcionesPagos;
 import funciones.funcionesUsuario;
 import model.entity.Usuario;
 import java.util.Scanner;
@@ -17,19 +19,19 @@ public class App {
         System.out.println("4. Asignar usuario a una categoria");//hecha
         System.out.println("5. Ver Catalogo");//hecha
         System.out.println("6. Modificar Catalogo");//hecha
-        System.out.println("7. Realizar pedido");
-        System.out.println("8. Pagar factura");
-        System.out.println("9. Ver Registro de Facturas");
-        System.out.println("10. Ver Registro de Pagos");
+        System.out.println("7. Modificar Carrito");//faltan dos
+        System.out.println("8. Pagar factura");//falta armado y pago
+        System.out.println("9. Ver Registro de Facturas");//hecha?
+        System.out.println("10. Ver Registro de Pagos");//hecha?
         System.out.println("-1. Salir del sistema");
-        System.out.print("Seleccione la acción a realizar:");
+        System.out.print("Seleccione la acción a realizar: ");
 
         Scanner opc = new Scanner(System.in);
         int opcion = opc.nextInt();
 
         while (opcion != -1){
             if (opcion == 1) {
-                System.out.print("Ingrese el dni del usuario que desea buscar:");
+                System.out.print("Ingrese el dni del usuario que desea buscar: ");
                 Scanner documento = new Scanner(System.in);
                 int dni = documento.nextInt();
                 Usuario usuario = Usuario.cargarDesdeRedis(dni);
@@ -55,7 +57,7 @@ public class App {
                     System.out.println("2. Todos los usuarios de categoria MEDIUM");
                     System.out.println("3. Todos los usuarios de categoria LOW");
                     System.out.println("-1. Volver al menu principal");
-                    System.out.print("Ingrese el número correspondiente a la categoria que desea visualizar:");
+                    System.out.print("Ingrese el número correspondiente a la categoria que desea visualizar: ");
 
                     Scanner cat = new Scanner(System.in);
                     int categoria = cat.nextInt();
@@ -73,7 +75,7 @@ public class App {
                 }
 
             }else if (opcion == 4) {
-                System.out.print("Ingrese el DNI del usuario al que le quiere asignar una categoria:");
+                System.out.print("Ingrese el DNI del usuario al que le quiere asignar una categoria: ");
                 Scanner doc = new Scanner(System.in);
                 int documento = doc.nextInt();
                 funcionesUsuario.asignarCategoriaUsuario(documento);
@@ -87,7 +89,7 @@ public class App {
                     System.out.println("1. Modificar descripcion y/o nombre de un producto");
                     System.out.println("2. Modificar precio por unidad de un producto");
                     System.out.println("-1. Volver al menu principal");
-                    System.out.print("Ingrese el número correspondiente a la accion que desea realizar:");
+                    System.out.print("Ingrese el número correspondiente a la accion que desea realizar: ");
 
                     if (opModCat == 1){
                         funcionesCatalogo.modificarNomDesCatalogo();
@@ -99,12 +101,23 @@ public class App {
                 }
 
             }else if (opcion == 7) {
+                System.out.print("Ingrese su DNI para modificar su carrito: ");
+                Scanner docu = new Scanner(System.in);
+                int denei = docu.nextInt();
+                System.out.println("1. Agregar producto");
+                System.out.println("2. Modificar cantidad de un producto");
+                System.out.println("3. Eliminar producto");
+                System.out.println("0. Hacer pedido");
+                System.out.println("-1. Volver al menu principal");
+                System.out.print("Ingrese el número correspondiente a la accion que desea realizar: ");
 
             }else if (opcion == 8) {
 
             }else if (opcion == 9) {
+                funcionesFacturas.mostrarFacturas();
 
             }else if (opcion == 10) {
+                funcionesPagos.mostrarPagos();
 
             }else{
                 System.out.println("Se ingreso un dato erroneo");
