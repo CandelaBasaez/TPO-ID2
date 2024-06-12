@@ -31,36 +31,48 @@ public class funcionesUsuario {
         return usuario;
     }
 
-    public static void mostrarUsuariosTOP() {
+    public static List<Usuario> mostrarUsuariosTOP() {
+        List<Usuario> usuarios = new ArrayList<>();
 
         try (Jedis jedis = new Jedis("localhost", 6379)) {
-            List<String> dniUsuarios = jedis.zrangeByScore("categorias", Double.parseDouble("241"),1000000000);
+            List<String> dniUsuarios = jedis.zrangeByScore("categorias", Double.parseDouble("241"), 1000000000);
 
             for (String dniUsuario : dniUsuarios) {
                 int dni = Integer.parseInt(dniUsuario);
                 Usuario usuario = cargarDesdeRedis(dni);
-                if (usuario != null) {
-                    usuario.toString();
+                String us = usuario.toString();
+                if (us != null) {
+                    usuarios.add(usuario);
                 }
             }
+            for(Usuario usuario : usuarios){
+                System.out.println(usuario);
+            }
         }
+        return usuarios;
     }
 
-    public static void mostrarUsuariosMEDIUM() {
-
+    public static List<Usuario> mostrarUsuariosMEDIUM() {
+        List<Usuario> usuarios = new ArrayList<>();
         try (Jedis jedis = new Jedis("localhost", 6379)) {
             List<String> dniUsuarios = jedis.zrangeByScore("categorias",120,240);
 
             for (String dniUsuario : dniUsuarios) {
                 int dni = Integer.parseInt(dniUsuario);
                 Usuario usuario = cargarDesdeRedis(dni);
-                if (usuario != null) {
-                    usuario.toString();
+                String us = usuario.toString();
+                if (us != null) {
+                    usuarios.add(usuario);
                 }
             }
+            for(Usuario usuario : usuarios){
+                System.out.println(usuario);
+            }
         }
+        return usuarios;
     }
-    public static void mostrarUsuariosLOW() {
+    public static List<Usuario> mostrarUsuariosLOW() {
+        List<Usuario> usuarios = new ArrayList<>();
 
         try (Jedis jedis = new Jedis("localhost", 6379)) {
             List<String> dniUsuarios = jedis.zrangeByScore("categorias",0, Double.parseDouble("119"));
@@ -68,11 +80,16 @@ public class funcionesUsuario {
             for (String dniUsuario : dniUsuarios) {
                 int dni = Integer.parseInt(dniUsuario);
                 Usuario usuario = cargarDesdeRedis(dni);
-                if (usuario != null) {
-                    usuario.toString();
+                String us = usuario.toString();
+                if (us != null) {
+                    usuarios.add(usuario);
                 }
             }
+            for(Usuario usuario : usuarios){
+                System.out.println(usuario);
+            }
         }
+        return usuarios;
     }
 
     public static void asignarCategoriaUsuario(int dni){

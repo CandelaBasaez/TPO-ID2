@@ -36,9 +36,6 @@ public class funcionesCatalogo {
         }
     }
     public static void modificarNomDesCatalogo(){
-        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
-        MongoDatabase database = mongoClient.getDatabase("BD2_Mongo");
-        MongoCollection<Document> collection = database.getCollection("CambiosCatalogo");
         System.out.println("Ingrese que producto desea modificar:");
         Scanner prod = new Scanner(System.in);
         String product = prod.nextLine();
@@ -48,11 +45,15 @@ public class funcionesCatalogo {
         System.out.println("Ingrese el nuevo dato:");
         Scanner mod = new Scanner(System.in);
         String modif = mod.nextLine();
+        String modi = modif.toString();
         try (Driver driver = GraphDatabase.driver("bolt://localhost:7687", AuthTokens.basic("neo4j", "contraCande"))) {
             try (Session session = driver.session()) {
-                session.run("MATCH (n:Producto{nombre:"+product+"}) SET n."+parte+"="+ StringFormat(modif));
+                session.run("MATCH (n:Producto{nombre:"+product+"}) SET n."+parte+"="+modi);
             }
         }
+        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+        MongoDatabase database = mongoClient.getDatabase("BD2_Mongo");
+        MongoCollection<Document> collection = database.getCollection("CambiosCatalogo");
         Document document = new Document();
         document.put("descripcion","Se modifico"+parte+"de"+product);
         document.put("fecha", LocalDateTime.now());

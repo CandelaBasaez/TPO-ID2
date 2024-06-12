@@ -2,6 +2,8 @@ package app;
 
 import funciones.*;
 import model.entity.Usuario;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class App {
@@ -67,10 +69,13 @@ public class App {
 
                     if (categoria == 1) {
                         funcionesUsuario.mostrarUsuariosTOP();
+                        System.out.println("--------------------------------");
                     } else if (categoria == 2) {
                         funcionesUsuario.mostrarUsuariosMEDIUM();
+                        System.out.println("--------------------------------");
                     } else if (categoria == 3) {
                         funcionesUsuario.mostrarUsuariosLOW();
+                        System.out.println("--------------------------------");
                     } else {
                         System.out.println("Se ha ingresado un dato erroneo");
                     }

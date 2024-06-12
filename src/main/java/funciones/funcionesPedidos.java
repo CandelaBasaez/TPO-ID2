@@ -6,6 +6,8 @@ import scala.reflect.internal.pickling.UnPickler;
 
 import java.util.Scanner;
 
+import static scala.Predef.StringFormat;
+
 public class funcionesPedidos {
     public static void agregarAlCarrito(int dni) {
         try (Driver driver = GraphDatabase.driver("bolt://localhost:7687", AuthTokens.basic("neo4j", "contraCande"))) {
@@ -16,7 +18,7 @@ public class funcionesPedidos {
                     System.out.println("--------------------------------------------------------");
                     System.out.println("Producto: " + record.get("n").get("nombre").asString());
                     System.out.println("Descripcion: " + record.get("n").get("descripcion").asString());
-                    System.out.println("Precio por unidad: " + record.get("n").get("precioUnitario").asString());
+                    System.out.println("Precio por unidad: " + record.get("n").get("precioUnitario").asInt());
                     System.out.println("--------------------------------------------------------");
                 }
                 System.out.print("Ingrese el nombre del producto que desea agregar: ");
@@ -25,7 +27,8 @@ public class funcionesPedidos {
                 System.out.print("Ingrese la cantidad del producto que desea agregar: ");
                 Scanner cant = new Scanner(System.in);
                 int cantidad = cant.nextInt();
-                Result i = session.run("MATCH (c:Carrito{userDNI:" + dni + "})-[r]->(p:Producto{nombre:" + producto + "}) RETURN r");
+                String prd = producto.toString();
+                Result i = session.run("MATCH (c:Carrito{userDNI:" + dni + "})-[r]->(p:Producto{nombre:" + prd + "}) RETURN r");
                 if (i != null) {
                     session.run("MATCH (c:Carrito{userDNI:" + dni + "}),(p:Producto{nombre:" + producto + "}) CREATE (c)-[:TIENE{cant:" + cantidad + "}]->(p)");
                 } else {
