@@ -17,11 +17,12 @@ public class App {
         System.out.println("3. Ver usuarios por categorias");//hecha
         System.out.println("4. Asignar usuario a una categoria");//hecha
         System.out.println("5. Ver Catalogo");//hecha
-        System.out.println("6. Modificar Catalogo");//hecha
+        System.out.println("6. Modificar Catalogo");//faltan agregar y eliminar
         System.out.println("7. Modificar Carrito");//hecha
         System.out.println("8. Pagar factura");//falta armado y pago
         System.out.println("9. Ver Registro de Facturas");//hecha?
         System.out.println("10. Ver Registro de Pagos");//hecha?
+        System.out.println("11. Ver Registro de Cambios en el Catalogo");//hecha?
         System.out.println("-1. Salir del sistema");
         System.out.print("Seleccione la acción a realizar: ");
 
@@ -93,16 +94,19 @@ public class App {
             }else if (opcion == 6) {
                 int opModCat = 0;
                 while(opModCat!=-1){
-                    System.out.println("1. Modificar descripcion y/o nombre de un producto");
-                    System.out.println("2. Modificar precio por unidad de un producto");
+                    System.out.println("1. Modificar nombre de un producto");
+                    System.out.println("2. Modificar descripcion de un producto");
+                    System.out.println("3. Modificar precio por unidad de un producto");
                     System.out.println("-1. Volver al menu principal");
                     System.out.print("Ingrese el número correspondiente a la accion que desea realizar: ");
                     Scanner opCt = new Scanner(System.in);
                     opModCat = opCt.nextInt();
 
                     if (opModCat == 1){
-                        funcionesCatalogo.modificarNomDesCatalogo();
-                    } else if (opModCat == 2) {
+                        funcionesCatalogo.modificarNombreCatalogo();
+                    }else if(opModCat == 2) {
+                        funcionesCatalogo.mostrarCatalogo();
+                    }else if (opModCat == 3) {
                         funcionesCatalogo.modificarPrecioCatalogo();
                     }else{
                         System.out.println("Se ha ingresado un dato erroneo");
@@ -143,6 +147,7 @@ public class App {
                 Scanner nF= new Scanner(System.in);
                 int numF = nF.nextInt();
                 funcionesFacturas.pagarFactura(numF);
+                funcionesPagos.registrarPagoFactura(numF);
 
             }else if (opcion == 9) {
                 funcionesFacturas.mostrarFacturas();

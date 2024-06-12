@@ -17,7 +17,7 @@ public class funcionesPedidos {
                 while (result.hasNext()) {
                     Record record = result.next();
                     System.out.println("--------------------------------------------------------");
-                    System.out.println("Codigo del Producto" + record.get("n").get("codigoProducto"));
+                    System.out.println("Codigo del Producto: " + record.get("n").get("codigoProducto"));
                     System.out.println("Producto: " + record.get("n").get("nombre").asString());
                     System.out.println("Descripcion: " + record.get("n").get("descripcion").asString());
                     System.out.println("Precio por unidad: " + record.get("n").get("precioUnitario").asInt());
