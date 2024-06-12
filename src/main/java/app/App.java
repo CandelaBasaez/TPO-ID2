@@ -98,6 +98,8 @@ public class App {
                     System.out.println("1. Modificar nombre de un producto");
                     System.out.println("2. Modificar descripcion de un producto");
                     System.out.println("3. Modificar precio por unidad de un producto");
+                    System.out.println("4. Agregar producto");
+                    System.out.println("5. Eliminar producto");
                     System.out.println("-1. Volver al menu principal");
                     System.out.print("Ingrese el número correspondiente a la accion que desea realizar: ");
                     Scanner opCt = new Scanner(System.in);
@@ -109,6 +111,10 @@ public class App {
                         funcionesCatalogo.mostrarCatalogo();
                     }else if (opModCat == 3) {
                         funcionesCatalogo.modificarPrecioCatalogo();
+                    }else if(opModCat == 4) {
+                        funcionesCatalogo.agregarProducto();
+                    }else if(opModCat == 5) {
+                        funcionesCatalogo.eliminarProducto();
                     }else{
                         System.out.println("Se ha ingresado un dato erroneo");
                     }
