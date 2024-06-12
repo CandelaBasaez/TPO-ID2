@@ -35,6 +35,7 @@ public class App {
                 Scanner documento = new Scanner(System.in);
                 int dni = documento.nextInt();
                 Usuario usuario = Usuario.cargarDesdeRedis(dni);
+                System.out.println(usuario);
 
             } else if (opcion == 2) {
                 Scanner document = new Scanner(System.in);
