@@ -15,7 +15,11 @@ public class funcionesPagos {
         mongoClient.close();
     }
 
-    public static void modificarPagoFactura(){
+    public static void registrarPagoFactura(){
+        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+        MongoDatabase database = mongoClient.getDatabase("BD2_Mongo");
+        MongoCollection<Document> collection = database.getCollection("Pagos");
+
 
     }
 }

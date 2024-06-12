@@ -1,16 +1,13 @@
 package app;
 
-import funciones.funcionesCatalogo;
-import funciones.funcionesFacturas;
-import funciones.funcionesPagos;
-import funciones.funcionesUsuario;
+import funciones.*;
 import model.entity.Usuario;
 import java.util.Scanner;
 
 public class App {
 
     public static void main(String[] args) {
-        CargadoDatosPrueba.InicializadoSistema();
+//        CargadoDatosPrueba.InicializadoSistema();
 
         System.out.println("Te damos la bienvenida a la Libreria");
         System.out.println("1. Seleccionar Usuario");//hecha
@@ -19,7 +16,7 @@ public class App {
         System.out.println("4. Asignar usuario a una categoria");//hecha
         System.out.println("5. Ver Catalogo");//hecha
         System.out.println("6. Modificar Catalogo");//hecha
-        System.out.println("7. Modificar Carrito");//faltan dos
+        System.out.println("7. Modificar Carrito");//hecha
         System.out.println("8. Pagar factura");//falta armado y pago
         System.out.println("9. Ver Registro de Facturas");//hecha?
         System.out.println("10. Ver Registro de Pagos");//hecha?
@@ -42,10 +39,15 @@ public class App {
                 Scanner surname = new Scanner(System.in);
                 Scanner address = new Scanner(System.in);
                 Scanner condIva = new Scanner(System.in);
+                System.out.println("Ingrese el DNI: ");
                 int dni = document.nextInt();
+                System.out.println("Ingrese el nombre: ");
                 String nombre = name.nextLine();
+                System.out.println("Ingrese el apellido: ");
                 String apellido = surname.nextLine();
+                System.out.println("Ingrese la direccion: ");
                 String direccion = address.nextLine();
+                System.out.println("Ingrese la condicion con respecto al IVA: ");
                 String condIVA = condIva.nextLine();
 
                 Usuario usuario = funcionesUsuario.crearUsuario(dni, nombre, apellido, condIVA, direccion);
@@ -90,6 +92,8 @@ public class App {
                     System.out.println("2. Modificar precio por unidad de un producto");
                     System.out.println("-1. Volver al menu principal");
                     System.out.print("Ingrese el número correspondiente a la accion que desea realizar: ");
+                    Scanner opCt = new Scanner(System.in);
+                    opModCat = opCt.nextInt();
 
                     if (opModCat == 1){
                         funcionesCatalogo.modificarNomDesCatalogo();
@@ -110,8 +114,29 @@ public class App {
                 System.out.println("0. Hacer pedido");
                 System.out.println("-1. Volver al menu principal");
                 System.out.print("Ingrese el número correspondiente a la accion que desea realizar: ");
+                Scanner selec = new Scanner(System.in);
+                int seleccion = selec.nextInt();
+                while(seleccion!=-1) {
+                    if (seleccion == 1) {
+                        funcionesPedidos.agregarAlCarrito(denei);
+                    } else if (seleccion == 2) {
+                        funcionesPedidos.modificarCant(denei);
+                    } else if (seleccion == 3) {
+                        funcionesPedidos.eliminarDelCarrito(denei);
+                    } else if(seleccion == 0){
+                        funcionesFacturas.crearFactura(denei);
+                    }else{
+                        System.out.println("El valor ingresado no es valido");
+                    }
+                    System.out.print("Ingrese el número correspondiente a la accion que desea realizar: ");
+                    seleccion = selec.nextInt();
+                }
 
             }else if (opcion == 8) {
+                funcionesFacturas.mostrarFacturas();
+                Scanner nF= new Scanner(System.in);
+                int numF = nF.nextInt();
+                funcionesFacturas.pagarFactura(numF);
 
             }else if (opcion == 9) {
                 funcionesFacturas.mostrarFacturas();
@@ -123,7 +148,24 @@ public class App {
                 System.out.println("Se ingreso un dato erroneo");
                 //VER QUE HAGO ACA
             }
+            System.out.println("");
+            System.out.println("--------------------------------");
+            System.out.println("1. Seleccionar Usuario");//hecha
+            System.out.println("2. Crear usuario");//hecha
+            System.out.println("3. Ver usuarios por categorias");//hecha
+            System.out.println("4. Asignar usuario a una categoria");//hecha
+            System.out.println("5. Ver Catalogo");//hecha
+            System.out.println("6. Modificar Catalogo");//hecha
+            System.out.println("7. Modificar Carrito");//hecha
+            System.out.println("8. Pagar factura");//falta armado y pago
+            System.out.println("9. Ver Registro de Facturas");//hecha?
+            System.out.println("10. Ver Registro de Pagos");//hecha?
+            System.out.println("-1. Salir del sistema");
+            System.out.print("Seleccione la acción a realizar: ");
+
+            opcion = opc.nextInt();
         }
+
 
     }
 }

@@ -11,10 +11,13 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import com.mongodb.client.MongoCollection;
+import scala.Predef;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
+
+import static scala.Predef.StringFormat;
 
 
 public class funcionesCatalogo {
@@ -26,7 +29,8 @@ public class funcionesCatalogo {
                 while (result.hasNext()) {
                     Record record = result.next();
                     System.out.println("Producto: "+record.get("n").get("nombre").asString());
-                    System.out.println("Precio por unidad: "+record.get("n").get("precioUnitario").asString());
+                    System.out.println("Precio por unidad: "+record.get("n").get("precioUnitario").asInt());
+                    System.out.println("--------------------------------");
                 }
             }
         }
@@ -46,7 +50,7 @@ public class funcionesCatalogo {
         String modif = mod.nextLine();
         try (Driver driver = GraphDatabase.driver("bolt://localhost:7687", AuthTokens.basic("neo4j", "contraCande"))) {
             try (Session session = driver.session()) {
-                session.run("MATCH (n:Producto{nombre:"+product+"}) SET n."+parte+"="+modif);
+                session.run("MATCH (n:Producto{nombre:"+product+"}) SET n."+parte+"="+ StringFormat(modif));
             }
         }
         Document document = new Document();
