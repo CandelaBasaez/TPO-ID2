@@ -139,6 +139,7 @@ public class App {
 
             }else if (opcion == 8) {
                 funcionesFacturas.mostrarFacturas();
+                System.out.print("Ingrese el numero de la factura que desea pagar: ");
                 Scanner nF= new Scanner(System.in);
                 int numF = nF.nextInt();
                 funcionesFacturas.pagarFactura(numF);

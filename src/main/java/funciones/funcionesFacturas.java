@@ -9,6 +9,7 @@ import org.neo4j.driver.Record;
 import redis.clients.jedis.Jedis;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Random;
 
 import static com.mongodb.client.model.Filters.eq;
@@ -47,24 +48,35 @@ public class funcionesFacturas {
         String fechaHora= LocalDateTime.now().toString();
         Random random = new Random();
         int numFac=100000+ random.nextInt(900000);
-        collection.insertOne(Document.parse("{nroFactura:"+numFac+",nombre:"+nombre+",apellido:"+apellido+",dni:"+dni+",catIVA:"+condIVA+",productos:[],fecha:"+fechaHora+",montoIVA:0,condPago:'No paga'}"));
+        Document document = new Document()
+                .append("nroFactura", numFac)
+                .append("nombre", nombre)
+                .append("apellido", apellido)
+                .append("dni", dni)
+                .append("catIVA", condIVA)
+                .append("productos", new ArrayList<>())
+                .append("fecha", fechaHora)
+                .append("montoIVA", 0)
+                .append("condPago", "No paga");
+        collection.insertOne(document);
         try (Driver driver = GraphDatabase.driver("bolt://localhost:7687", AuthTokens.basic("neo4j", "contraCande"))) {
             try (Session session = driver.session()) {
                 Result produc = session.run("MATCH (c:Carrito{userDNI:" + dni + "})-[r:TIENE]->(p:Producto) return p");
                 while (produc.hasNext()) {
                     Record record = produc.next();
-                    String prodSet = record.get("p").get("nombre").asString();
+                    int prodSet = record.get("p").get("codigoProducto").asInt();
                     int precioSet = record.get("p").get("precioUnitario").asInt();
-                    Result cant = session.run("MATCH (c:Carrito{userDNI:" + dni + "})-[r:TIENE]->(p:Producto{nombre:"+prodSet+"}) return r");
+                    Result cant = session.run("MATCH (c:Carrito{userDNI:" + dni + "})-[r:TIENE]->(p:Producto{codigoProducto:"+prodSet+"}) return r");
                     Record rec = cant.next();
                     int cantSet = rec.get("r").get("cant").asInt();
+                    String nomProd = record.get("p").get("nombre").asString();
 
-                    Document filtro = new Document("dni", dni);
+                    Document filtro = new Document("nroFactura", numFac);
                     MongoCursor<Document> cursor = collection.find(filtro).iterator();
                     if (cursor.hasNext()) {
                         Document doc = cursor.next();
                     }
-                    Document actualizar = new Document("$push", new Document("productos", prodSet));
+                    Document actualizar = new Document("$push", new Document("productos", nomProd));
                     collection.updateOne(filtro, actualizar);
                     monto = monto + (precioSet * cantSet);
                 }
@@ -77,7 +89,7 @@ public class funcionesFacturas {
         }else{
             calculo = monto*1.105;
         }
-        Document filtro = new Document("dni", dni);
+        Document filtro = new Document("nroFactura", numFac);
         Document actualizacion = new Document("$set", new Document("montoIVA", calculo));
         collection.updateOne(filtro, actualizacion);
         mongoClient.close();

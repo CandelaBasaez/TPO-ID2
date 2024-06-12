@@ -4,6 +4,7 @@ import org.neo4j.driver.*;
 import org.neo4j.driver.Record;
 import scala.reflect.internal.pickling.UnPickler;
 
+import java.util.Map;
 import java.util.Scanner;
 
 import static scala.Predef.StringFormat;
@@ -16,29 +17,29 @@ public class funcionesPedidos {
                 while (result.hasNext()) {
                     Record record = result.next();
                     System.out.println("--------------------------------------------------------");
+                    System.out.println("Codigo del Producto" + record.get("n").get("codigoProducto"));
                     System.out.println("Producto: " + record.get("n").get("nombre").asString());
                     System.out.println("Descripcion: " + record.get("n").get("descripcion").asString());
                     System.out.println("Precio por unidad: " + record.get("n").get("precioUnitario").asInt());
                     System.out.println("--------------------------------------------------------");
                 }
-                System.out.print("Ingrese el nombre del producto que desea agregar: ");
+                System.out.print("Ingrese el codigo del producto que desea agregar: ");
                 Scanner product = new Scanner(System.in);
-                String producto = product.nextLine();
+                int producto = product.nextInt();
                 System.out.print("Ingrese la cantidad del producto que desea agregar: ");
                 Scanner cant = new Scanner(System.in);
                 int cantidad = cant.nextInt();
-                String prd = producto.toString();
-                Result i = session.run("MATCH (c:Carrito{userDNI:" + dni + "})-[r]->(p:Producto{nombre:" + prd + "}) RETURN r");
+                Result i = session.run("MATCH (c:Carrito{userDNI:"+dni+"})-[r]->(p:Producto{codigoProducto:"+producto+"}) RETURN r");
                 if (i != null) {
-                    session.run("MATCH (c:Carrito{userDNI:" + dni + "}),(p:Producto{nombre:" + producto + "}) CREATE (c)-[:TIENE{cant:" + cantidad + "}]->(p)");
+                    session.run("MATCH (c:Carrito{userDNI:" + dni + "}),(p:Producto{codigoProducto:"+producto+"}) CREATE (c)-[:TIENE{cant:" + cantidad + "}]->(p)");
                 } else {
                     System.out.print("El producto ya se encuentra en el carrito. Si desea modificar la cantidad ingrese 0, si no desea modificar la cantidad ingrese -1: ");
                     Scanner opc = new Scanner(System.in);
                     int opcion = opc.nextInt();
                     if (opcion == 0) {
-                        session.run("MATCH (c:Carrito{userDNI:" + dni + "})-[r]->(p:Producto{nombre:" + producto + "}) set r.cant=" + cantidad);
+                        session.run("MATCH (c:Carrito{userDNI:" + dni + "})-[r]->(p:Producto{codigoProducto:"+producto+"}) set r.cant=" + cantidad);
                     } else if (opcion == -1) {
-                        session.run("MATCH (c:Carrito{userDNI:" + dni + "})-[r]->(p:Producto{nombre:" + producto + "}) return r");
+                        session.run("MATCH (c:Carrito{userDNI:" + dni + "})-[r]->(p:Producto{codigoProducto:"+producto+"}) return r");
                     } else {
                         System.out.println("Se ha ingresado un valor erroneo");
                     }
@@ -54,9 +55,9 @@ public class funcionesPedidos {
                 while (result.hasNext()) {
                     Record record = result.next();
                     System.out.println("--------------------------------------------------------");
-                    System.out.println("Codigo del producto: " + record.get("n").get("codigoProducto").asString());
-                    System.out.println("Producto: " + record.get("n").get("nombre").asString());
-                    System.out.println("Precio por unidad: " + record.get("n").get("precioUnitario").asString());
+                    System.out.println("Codigo del producto: " + record.get("p").get("codigoProducto").asInt());
+                    System.out.println("Producto: " + record.get("p").get("nombre").asString());
+                    System.out.println("Precio por unidad: " + record.get("p").get("precioUnitario").asInt());
                     System.out.println("--------------------------------------------------------");
                 }
                 System.out.println("Ingrese el codigo del producto que desea eliminar: ");
@@ -74,10 +75,9 @@ public class funcionesPedidos {
                 while (result.hasNext()) {
                     Record record = result.next();
                     System.out.println("--------------------------------------------------------");
-                    System.out.println("Codigo del producto: " + record.get("n").get("codigoProducto").asString());
-                    System.out.println("Producto: " + record.get("n").get("nombre").asString());
-                    System.out.println("Precio por unidad: " + record.get("n").get("precioUnitario").asString());
-                    System.out.println("Cantidad: " + record.get("r").get("cant").asInt());
+                    System.out.println("Codigo del producto: " + record.get("p").get("codigoProducto").asInt());
+                    System.out.println("Producto: " + record.get("p").get("nombre").asString());
+                    System.out.println("Precio por unidad: " + record.get("p").get("precioUnitario").asInt());
                     System.out.println("--------------------------------------------------------");
                 }
                 System.out.println("Ingrese el codigo del producto cuya cantidad desea cambiar: ");
