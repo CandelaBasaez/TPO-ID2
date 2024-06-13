@@ -43,7 +43,6 @@ public class funcionesFacturas {
                 condIVA = jedis.hget("usuario:" + dni, "condIVA");
             } else {
                 System.out.println("El usuario con el DNI ingresado no existe");
-                //!fijarse si hay error
             }
         }
         String fechaHora= LocalDateTime.now().toString();

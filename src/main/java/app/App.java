@@ -17,12 +17,12 @@ public class App {
         System.out.println("3. Ver usuarios por categorias");
         System.out.println("4. Asignar usuario a una categoria");
         System.out.println("5. Ver Catalogo");
-        System.out.println("6. Modificar Catalogo");//agregar - eliminar - nombre - precio - descripcion
-        System.out.println("7. Modificar Carrito");//hecha
-        System.out.println("8. Pagar factura");//falta armado y pago
-        System.out.println("9. Ver Registro de Facturas");//hecha?
-        System.out.println("10. Ver Registro de Pagos");//hecha?
-        System.out.println("11. Ver Registro de Cambios en el Catalogo");//falta
+        System.out.println("6. Modificar Catalogo");
+        System.out.println("7. Modificar Carrito");
+        System.out.println("8. Pagar factura");
+        System.out.println("9. Ver Registro de Facturas");
+        System.out.println("10. Ver Registro de Pagos");
+        System.out.println("11. Ver Registro de Cambios en el Catalogo");
         System.out.println("-1. Salir del sistema");
         System.out.print("Seleccione la acción a realizar: ");
 

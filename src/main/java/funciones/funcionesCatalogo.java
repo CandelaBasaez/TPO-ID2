@@ -57,7 +57,15 @@ public class funcionesCatalogo {
                 String query = ("CREATE(" + iden + ":Producto{codigoProducto:$codigo,nombre:$nombre,descripcion:$descripcion,precioUnitario:$precio})");
                 session.run(query, Values.parameters("codigo", codigo, "nombre", producto, "descripcion", descrip, "precio", precio));
             }
-    }
+            MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+            MongoDatabase database = mongoClient.getDatabase("BD2_Mongo");
+            MongoCollection<Document> collection = database.getCollection("CambiosCatalogo");
+            Document document = new Document();
+            document.put("descripcion", "Se añadio un producto");
+            document.put("fecha", LocalDateTime.now().toString());
+            collection.insertOne(document);
+            mongoClient.close();
+        }
     }
 
     public static void eliminarProducto(){
@@ -70,6 +78,14 @@ public class funcionesCatalogo {
                 String query = ("MATCH(p:Producto{codigoProducto:$codigo}) DETACH DELETE p");
                 session.run(query, Values.parameters("codigo", codigo));
             }
+            MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+            MongoDatabase database = mongoClient.getDatabase("BD2_Mongo");
+            MongoCollection<Document> collection = database.getCollection("CambiosCatalogo");
+            Document document = new Document();
+            document.put("descripcion", "Se elimino un producto");
+            document.put("fecha", LocalDateTime.now().toString());
+            collection.insertOne(document);
+            mongoClient.close();
         }
     }
 
@@ -95,7 +111,7 @@ public class funcionesCatalogo {
                 String nomb = name.nextLine().toString();
                 String query=("MATCH (n:Producto{codigoProducto:" + product + "}) SET n.nombre=$nombre");
                 session.run(query,Values.parameters("nombre",nomb));
-                nomPr = name.nextLine();
+                nomPr = nomb;
             }
             MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
             MongoDatabase database = mongoClient.getDatabase("BD2_Mongo");
@@ -164,7 +180,8 @@ public class funcionesCatalogo {
                 int precio = price.nextInt();
                 session.run("MATCH (n:Producto{codigoProducto:" + product + "}) SET n.precioUnitario=" + precio);
                 Result res = session.run("MATCH (n:Producto{codigoProducto:" + product + "}) return n");
-                nomPr = res.next().toString();
+                Record rec = res.next();
+                nomPr = rec.get("n").get("nombre").asString();
             }
             MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
             MongoDatabase database = mongoClient.getDatabase("BD2_Mongo");
