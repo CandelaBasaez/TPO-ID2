@@ -16,11 +16,12 @@ import static com.mongodb.client.model.Filters.eq;
 import static java.lang.reflect.Array.set;
 
 public class funcionesFacturas {
-    public static void mostrarFacturas(){
+    public static void mostrarFacturas(int dni){
         MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
         MongoDatabase database = mongoClient.getDatabase("BD2_Mongo");
         MongoCollection<Document> collection = database.getCollection("Facturas");
-        FindIterable<Document> documents = collection.find();
+        Document filtro = new Document("dni", dni);
+        FindIterable<Document> documents = collection.find(filtro);
         for (Document document : documents) {
             System.out.println(document.toJson());
         }
@@ -55,6 +56,7 @@ public class funcionesFacturas {
                 .append("dni", dni)
                 .append("catIVA", condIVA)
                 .append("productos", new ArrayList<>())
+                .append("cantidades", new ArrayList<>())
                 .append("fecha", fechaHora)
                 .append("montoIVA", 0)
                 .append("condPago", "No paga");
@@ -78,6 +80,8 @@ public class funcionesFacturas {
                     }
                     Document actualizar = new Document("$push", new Document("productos", nomProd));
                     collection.updateOne(filtro, actualizar);
+                    Document actuali = new Document("$push", new Document("cantidades", cantSet));
+                    collection.updateOne(filtro, actuali);
                     monto = monto + (precioSet * cantSet);
                 }
             }

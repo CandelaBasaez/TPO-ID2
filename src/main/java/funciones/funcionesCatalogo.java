@@ -1,16 +1,13 @@
 package funciones;
 
+import com.mongodb.client.*;
 import model.entity.Usuario;
 import model.entity.neo.Producto;
 import org.neo4j.driver.*;
 import org.neo4j.driver.Record;
 import org.neo4j.fabric.stream.StatementResult;
 import redis.clients.jedis.Jedis;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
-import com.mongodb.client.MongoCollection;
 import scala.Predef;
 
 import java.time.LocalDateTime;
@@ -28,7 +25,10 @@ public class funcionesCatalogo {
                 Result result = session.run("MATCH (n:Producto) RETURN n");
                 while (result.hasNext()) {
                     Record record = result.next();
+                    System.out.println("--------------------------------");
+                    System.out.println("Codigo del Producto: "+record.get("n").get("codigoProducto").asInt());
                     System.out.println("Producto: "+record.get("n").get("nombre").asString());
+                    System.out.println("Descripcion: "+record.get("n").get("descripcion").asString());
                     System.out.println("Precio por unidad: "+record.get("n").get("precioUnitario").asInt());
                     System.out.println("--------------------------------");
                 }
@@ -175,6 +175,16 @@ public class funcionesCatalogo {
             collection.insertOne(document);
             mongoClient.close();
         }
+    }
+    public static void mostrarCambiosCatalogo(){
+        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+        MongoDatabase database = mongoClient.getDatabase("BD2_Mongo");
+        MongoCollection<Document> collection = database.getCollection("CambiosCatalogo");
+        FindIterable<Document> documents = collection.find();
+        for (Document document : documents) {
+            System.out.println(document.toJson());
+        }
+        mongoClient.close();
     }
 
 }

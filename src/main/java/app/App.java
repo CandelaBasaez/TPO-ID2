@@ -12,17 +12,17 @@ public class App {
 //        CargadoDatosPrueba.InicializadoSistema();
 
         System.out.println("Te damos la bienvenida a la Libreria");
-        System.out.println("1. Seleccionar Usuario");//hecha
-        System.out.println("2. Crear usuario");//hecha
-        System.out.println("3. Ver usuarios por categorias");//hecha
-        System.out.println("4. Asignar usuario a una categoria");//hecha
-        System.out.println("5. Ver Catalogo");//hecha
-        System.out.println("6. Modificar Catalogo");//faltan agregar y eliminar
+        System.out.println("1. Seleccionar Usuario");
+        System.out.println("2. Crear usuario");
+        System.out.println("3. Ver usuarios por categorias");
+        System.out.println("4. Asignar usuario a una categoria");
+        System.out.println("5. Ver Catalogo");
+        System.out.println("6. Modificar Catalogo");//agregar - eliminar - nombre - precio - descripcion
         System.out.println("7. Modificar Carrito");//hecha
         System.out.println("8. Pagar factura");//falta armado y pago
         System.out.println("9. Ver Registro de Facturas");//hecha?
         System.out.println("10. Ver Registro de Pagos");//hecha?
-        System.out.println("11. Ver Registro de Cambios en el Catalogo");//hecha?
+        System.out.println("11. Ver Registro de Cambios en el Catalogo");//falta
         System.out.println("-1. Salir del sistema");
         System.out.print("Seleccione la acción a realizar: ");
 
@@ -108,7 +108,7 @@ public class App {
                     if (opModCat == 1){
                         funcionesCatalogo.modificarNombreCatalogo();
                     }else if(opModCat == 2) {
-                        funcionesCatalogo.mostrarCatalogo();
+                        funcionesCatalogo.modificarDescCatalogo();
                     }else if (opModCat == 3) {
                         funcionesCatalogo.modificarPrecioCatalogo();
                     }else if(opModCat == 4) {
@@ -149,7 +149,10 @@ public class App {
                 }
 
             }else if (opcion == 8) {
-                funcionesFacturas.mostrarFacturas();
+                System.out.print("Ingrese el DNI para buscar facturas asociadas: ");
+                Scanner doc = new Scanner(System.in);
+                int documento = doc.nextInt();
+                funcionesFacturas.mostrarFacturas(documento);
                 System.out.print("Ingrese el numero de la factura que desea pagar: ");
                 Scanner nF= new Scanner(System.in);
                 int numF = nF.nextInt();
@@ -157,27 +160,31 @@ public class App {
                 funcionesPagos.registrarPagoFactura(numF);
 
             }else if (opcion == 9) {
-                funcionesFacturas.mostrarFacturas();
+                System.out.print("Ingrese el DNI para buscar facturas asociadas: ");
+                Scanner doc = new Scanner(System.in);
+                int documento = doc.nextInt();
+                funcionesFacturas.mostrarFacturas(documento);
 
             }else if (opcion == 10) {
                 funcionesPagos.mostrarPagos();
 
+            }else if(opcion == 11) {
+                funcionesCatalogo.mostrarCambiosCatalogo();
             }else{
                 System.out.println("Se ingreso un dato erroneo");
-                //VER QUE HAGO ACA
             }
             System.out.println("");
             System.out.println("--------------------------------");
-            System.out.println("1. Seleccionar Usuario");//hecha
-            System.out.println("2. Crear usuario");//hecha
-            System.out.println("3. Ver usuarios por categorias");//hecha
-            System.out.println("4. Asignar usuario a una categoria");//hecha
-            System.out.println("5. Ver Catalogo");//hecha
-            System.out.println("6. Modificar Catalogo");//hecha
-            System.out.println("7. Modificar Carrito");//hecha
-            System.out.println("8. Pagar factura");//falta armado y pago
-            System.out.println("9. Ver Registro de Facturas");//hecha?
-            System.out.println("10. Ver Registro de Pagos");//hecha?
+            System.out.println("1. Seleccionar Usuario");
+            System.out.println("2. Crear usuario");
+            System.out.println("3. Ver usuarios por categorias");
+            System.out.println("4. Asignar usuario a una categoria");
+            System.out.println("5. Ver Catalogo");
+            System.out.println("6. Modificar Catalogo");
+            System.out.println("7. Modificar Carrito");
+            System.out.println("8. Pagar factura");
+            System.out.println("9. Ver Registro de Facturas");
+            System.out.println("10. Ver Registro de Pagos");
             System.out.println("-1. Salir del sistema");
             System.out.print("Seleccione la acción a realizar: ");
 
