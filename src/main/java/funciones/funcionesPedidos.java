@@ -97,4 +97,29 @@ public class funcionesPedidos {
             }
         }
     }
+
+    public static void mostrarCarrito(int dni){
+        try (Driver driver = GraphDatabase.driver("bolt://localhost:7687", AuthTokens.basic("neo4j", "contraCande"))) {
+            try (Session session = driver.session()) {
+                Result result = session.run("MATCH (c:Carrito{userDNI:"+ dni +"})-[r:TIENE]->(p:Producto) return p");
+                while (result.hasNext()) {
+                    Record record = result.next();
+                    String nomProd = record.get("p").get("nombre").asString();
+                    int precProd = record.get("p").get("precioUnitario").asInt();
+                    Result resultado = session.run("MATCH (c:Carrito{userDNI:"+ dni +"})-[r:TIENE]->(p:Producto{nombre:"+nomProd+"}) return r");
+                    Record dato = resultado.next();
+                    int cantProd = dato.get("r").get("cant").asInt();
+                    System.out.println("--------------------------------");
+                    System.out.println("Codigo del Producto: "+record.get("p").get("codigoProducto").asInt());
+                    System.out.println("Producto: "+record.get("p").get("nombre").asString());
+                    System.out.println("Descripcion: "+record.get("p").get("descripcion").asString());
+                    System.out.println("Precio por unidad: "+precProd);
+                    System.out.println("Cantidad: "+cantProd);
+                    int suma = precProd*cantProd;
+                    System.out.println("Monto total: "+suma);
+                    System.out.println("--------------------------------");
+                }
+            }
+        }
+    }
 }

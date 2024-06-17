@@ -144,6 +144,7 @@ public class App {
                     }else{
                         System.out.println("El valor ingresado no es valido");
                     }
+                    funcionesPedidos.mostrarCarrito(denei);
                     System.out.print("Ingrese el número correspondiente a la accion que desea realizar: ");
                     seleccion = selec.nextInt();
                 }
