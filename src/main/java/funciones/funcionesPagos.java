@@ -18,7 +18,19 @@ public class funcionesPagos {
         mongoClient.close();
     }
 
-    public static void registrarPagoFactura(int numFac){
+    public static void mostrarPagosPorUsuario(int dni){
+        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+        MongoDatabase database = mongoClient.getDatabase("BD2_Mongo");
+        MongoCollection<Document> collection = database.getCollection("Pagos");
+        Document filtro = new Document("DNIUsuario", dni);
+        FindIterable<Document> documents = collection.find(filtro);
+        for (Document document : documents) {
+            System.out.println(document.toJson());
+        }
+        mongoClient.close();
+    }
+
+    public static void registrarPagoFactura(int numFac,int dni){
         MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
         MongoDatabase database = mongoClient.getDatabase("BD2_Mongo");
         MongoCollection<Document> collection = database.getCollection("Pagos");
@@ -26,7 +38,9 @@ public class funcionesPagos {
         Document document = new Document()
                 .append("Accion", "Se pago la factura")
                 .append("FacturaPaga", numFac)
+                .append("DNIUsuario",dni)
                 .append("fecha", fechaHora);
         collection.insertOne(document);
     }
+
 }
