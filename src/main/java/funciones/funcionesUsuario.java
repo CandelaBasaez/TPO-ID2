@@ -17,13 +17,14 @@ public class funcionesUsuario {
         }
     }
 
-    public static Usuario crearUsuario(int dni, String nombre, String apellido, String condIVA, String direccion) {
+    public static Usuario crearUsuario(int dni, String nombre, String apellido, String condIVA, String direccion, String permisos) {
         Usuario usuario = new Usuario();
         usuario.setDni(dni);
         usuario.setNombre(nombre);
         usuario.setApellido(apellido);
         usuario.setCondIVA(condIVA);
         usuario.setDireccion(direccion);
+        usuario.setPermisos(permisos);
 
         usuario.guardarEnRedis();
 

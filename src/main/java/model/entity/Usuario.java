@@ -9,15 +9,17 @@ public class Usuario {
     private String apellido;
     private String direccion;
     private String condIVA;
+    private String permisos;
 
     public Usuario() {}
 
-    public Usuario(int dni, String nombre, String apellido, String condIVA, String direccion) {
+    public Usuario(int dni, String nombre, String apellido, String condIVA, String direccion, String permisos) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
         this.condIVA = condIVA;
         this.direccion = direccion;
+        this.permisos = permisos;
     }
 
 
@@ -28,6 +30,7 @@ public class Usuario {
             jedis.hset("usuario:" + dni, "apellido", apellido);
             jedis.hset("usuario:" + dni, "condIVA", condIVA);
             jedis.hset("usuario:" + dni, "direccion", direccion);
+            jedis.hset("usuario:"+ dni, "permisos", permisos);
         }
     }
 
@@ -38,7 +41,8 @@ public class Usuario {
                 String apellido = jedis.hget("usuario:" + dni, "apellido");
                 String condIVA = jedis.hget("usuario:" + dni, "condIVA");
                 String direccion = jedis.hget("usuario:" + dni, "direccion");
-                return new Usuario(dni, nombre, apellido, condIVA, direccion);
+                String permisos = jedis.hget("usuario" + dni, "permisos");
+                return new Usuario(dni, nombre, apellido, condIVA, direccion, permisos);
             } else {
                 return null;
             }
@@ -91,6 +95,14 @@ public class Usuario {
         this.condIVA = condIVA;
     }
 
+    public String getPermisos() {
+        return permisos;
+    }
+
+    public void setPermisos(String permisos) {
+        this.permisos = permisos;
+    }
+
     @Override
     public String toString() {
         return "Usuario{" +
@@ -99,6 +111,7 @@ public class Usuario {
                 ", apellido='" + apellido + '\'' +
                 ", direccion='" + direccion + '\'' +
                 ", condIVA='" + condIVA + '\'' +
+                ", permisos='" + permisos + '\'' +
                 '}';
     }
 }
