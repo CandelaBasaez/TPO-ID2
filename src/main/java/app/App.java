@@ -196,27 +196,26 @@ public class App {
                 funcionesPagos.mostrarPagosPorUsuario(dni);
 
             }
+        }else if (permiso == null){
+            Scanner document = new Scanner(System.in);
+            Scanner name = new Scanner(System.in);
+            Scanner surname = new Scanner(System.in);
+            Scanner address = new Scanner(System.in);
+            Scanner condIva = new Scanner(System.in);
+            System.out.println("Ingrese el DNI: ");
+            int dniUser = document.nextInt();
+            System.out.println("Ingrese el nombre: ");
+            String nombre = name.nextLine();
+            System.out.println("Ingrese el apellido: ");
+            String apellido = surname.nextLine();
+            System.out.println("Ingrese la direccion: ");
+            String direccion = address.nextLine();
+            System.out.println("Ingrese la condicion con respecto al IVA: ");
+            String condIVA = condIva.nextLine();
+
+            Usuario usuario = funcionesUsuario.crearUsuario(dni, nombre, apellido, condIVA, direccion);
         }else{
             System.out.println("El usuario con ese DNI no existe");
         }
 //
-//            } else if (opcion == 2) {
-//                Scanner document = new Scanner(System.in);
-//                Scanner name = new Scanner(System.in);
-//                Scanner surname = new Scanner(System.in);
-//                Scanner address = new Scanner(System.in);
-//                Scanner condIva = new Scanner(System.in);
-//                System.out.println("Ingrese el DNI: ");
-//                int dni = document.nextInt();
-//                System.out.println("Ingrese el nombre: ");
-//                String nombre = name.nextLine();
-//                System.out.println("Ingrese el apellido: ");
-//                String apellido = surname.nextLine();
-//                System.out.println("Ingrese la direccion: ");
-//                String direccion = address.nextLine();
-//                System.out.println("Ingrese la condicion con respecto al IVA: ");
-//                String condIVA = condIva.nextLine();
-//
-//                Usuario usuario = funcionesUsuario.crearUsuario(dni, nombre, apellido, condIVA, direccion);
-
 }}
