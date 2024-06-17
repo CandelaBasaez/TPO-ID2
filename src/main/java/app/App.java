@@ -12,6 +12,7 @@ public class App {
 
     public static void main(String[] args) {
         //CargadoDatosPrueba.InicializadoSistema();
+<<<<<<< Updated upstream
         System.out.println("Ingrese su DNI para acceder al sitio: ");
         Scanner iden = new Scanner(System.in);
         int dni = iden.nextInt();
@@ -28,6 +29,8 @@ public class App {
             System.out.println("8. Ver Registro de Cambios en el Catalogo");
             System.out.println("-1. Salir del sistema");
             System.out.print("Seleccione la acción a realizar: ");
+=======
+>>>>>>> Stashed changes
 
             Scanner opc = new Scanner(System.in);
             int opcion = opc.nextInt();
@@ -48,6 +51,8 @@ public class App {
             System.out.println("El usuario con ese DNI no existe");
         }
         System.out.println("Te damos la bienvenida a la Libreria");
+        System.out.println("Ingresa tu DNI para ");
+
         System.out.println("1. Seleccionar Usuario");
         System.out.println("2. Crear usuario");
         System.out.println("3. Ver usuarios por categorias");
