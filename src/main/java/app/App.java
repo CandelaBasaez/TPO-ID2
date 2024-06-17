@@ -11,8 +11,7 @@ import java.util.Scanner;
 public class App {
 
     public static void main(String[] args) {
-        System.out.println("Ingrese su DNI para acceder al sitio: ");
-        System.out.println("Si no tiene una cuenta ingrese 0 para crear un usuario:");
+        System.out.println("Ingrese su DNI para acceder al sitio (Si no tiene una cuenta ingrese 0 para crear un usuario): ");
         Scanner iden = new Scanner(System.in);
         int dni = iden.nextInt();
         String permiso = funcionesUsuario.identificarUser(dni);
@@ -196,6 +195,7 @@ public class App {
 
             }
         }else if (permiso == null){
+            System.out.println("Creando un nuevo usuario");
             Scanner document = new Scanner(System.in);
             Scanner name = new Scanner(System.in);
             Scanner surname = new Scanner(System.in);
