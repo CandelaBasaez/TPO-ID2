@@ -2,15 +2,51 @@ package app;
 
 import funciones.*;
 import model.entity.Usuario;
+import redis.clients.jedis.Jedis;
 
+import java.io.Console;
 import java.util.List;
 import java.util.Scanner;
 
 public class App {
 
     public static void main(String[] args) {
-        CargadoDatosPrueba.InicializadoSistema();
+        //CargadoDatosPrueba.InicializadoSistema();
+        System.out.println("Ingrese su DNI para acceder al sitio: ");
+        Scanner iden = new Scanner(System.in);
+        int dni = iden.nextInt();
+        String permiso = funcionesUsuario.identificarUser(dni);
+        if (permiso == "Administrador"){
+            System.out.println("Te damos la bienvenida a la Libreria");
+            System.out.println("1. Seleccionar Usuario");
+            System.out.println("2. Ver usuarios por categorias");
+            System.out.println("3. Asignar usuario a una categoria");
+            System.out.println("4. Ver Catalogo");
+            System.out.println("5. Modificar Catalogo");
+            System.out.println("6. Ver Registro de Facturas");
+            System.out.println("7. Ver Registro de Pagos");
+            System.out.println("8. Ver Registro de Cambios en el Catalogo");
+            System.out.println("-1. Salir del sistema");
+            System.out.print("Seleccione la acción a realizar: ");
 
+            Scanner opc = new Scanner(System.in);
+            int opcion = opc.nextInt();
+        }else if (permiso == "Cliente"){
+            System.out.println("Te damos la bienvenida a la Libreria");
+            System.out.println("1. Crear usuario");
+            System.out.println("2. Ver Catalogo");
+            System.out.println("3. Modificar Carrito");
+            System.out.println("4. Pagar factura");
+            System.out.println("5. Ver Registro de Facturas");
+            System.out.println("6. Ver Registro de Pagos");
+            System.out.println("-1. Salir del sistema");
+            System.out.print("Seleccione la acción a realizar: ");
+
+            Scanner opc = new Scanner(System.in);
+            int opcion = opc.nextInt();
+        }else{
+            System.out.println("El usuario con ese DNI no existe");
+        }
         System.out.println("Te damos la bienvenida a la Libreria");
         System.out.println("1. Seleccionar Usuario");
         System.out.println("2. Crear usuario");

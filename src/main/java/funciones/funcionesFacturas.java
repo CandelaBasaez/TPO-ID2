@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.logging.Level;
 
 import static com.mongodb.client.model.Filters.eq;
 import static java.lang.reflect.Array.set;

@@ -10,6 +10,13 @@ import static model.entity.Usuario.cargarDesdeRedis;
 
 public class funcionesUsuario {
 
+    public static String identificarUser(int dni){
+        try (Jedis jedis = new Jedis("redis://localhost:6379")) {
+            String permiso = jedis.hget("usuario:" + dni, "permisos");
+            return permiso;
+        }
+    }
+
     public static Usuario crearUsuario(int dni, String nombre, String apellido, String condIVA, String direccion) {
         Usuario usuario = new Usuario();
         usuario.setDni(dni);
