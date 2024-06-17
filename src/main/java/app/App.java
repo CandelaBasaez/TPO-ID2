@@ -13,7 +13,7 @@ public class App {
     public static void main(String[] args) {
         //CargadoDatosPrueba.InicializadoSistema();
         System.out.println("Ingrese su DNI para acceder al sitio: ");
-        System.out.println("Si no tiene una cuenta ingrese 0 para crear un usuario");
+        System.out.println("Si no tiene una cuenta ingrese 0 para crear un usuario:");
         Scanner iden = new Scanner(System.in);
         int dni = iden.nextInt();
         String permiso = funcionesUsuario.identificarUser(dni);
@@ -213,9 +213,9 @@ public class App {
             System.out.println("Ingrese la condicion con respecto al IVA: ");
             String condIVA = condIva.nextLine();
 
-            Usuario usuario = funcionesUsuario.crearUsuario(dni, nombre, apellido, condIVA, direccion);
+            Usuario usuario = funcionesUsuario.crearUsuario(dniUser, nombre, apellido, condIVA, direccion);
         }else{
             System.out.println("El usuario con ese DNI no existe");
         }
-//
+
 }}
