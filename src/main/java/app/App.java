@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class App {
 
     public static void main(String[] args) {
-//        CargadoDatosPrueba.InicializadoSistema();
+        CargadoDatosPrueba.InicializadoSistema();
 
         System.out.println("Te damos la bienvenida a la Libreria");
         System.out.println("1. Seleccionar Usuario");

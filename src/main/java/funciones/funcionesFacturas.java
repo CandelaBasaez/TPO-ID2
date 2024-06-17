@@ -11,6 +11,7 @@ import redis.clients.jedis.Jedis;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 import static com.mongodb.client.model.Filters.eq;
 import static java.lang.reflect.Array.set;
@@ -57,6 +58,7 @@ public class funcionesFacturas {
                 .append("productos", new ArrayList<>())
                 .append("cantidades", new ArrayList<>())
                 .append("fecha", fechaHora)
+                .append("metodoPago","A definir")
                 .append("montoIVA", 0)
                 .append("condPago", "No paga");
         collection.insertOne(document);
@@ -104,10 +106,16 @@ public class funcionesFacturas {
     }
 
     public static void pagarFactura(int nroFac){
+        System.out.println("Ingrese el metodo de pago: ");
+        Scanner metodo = new Scanner(System.in);
+        String metodoP = metodo.nextLine();
         MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
         MongoDatabase database = mongoClient.getDatabase("BD2_Mongo");
         MongoCollection<Document> collection = database.getCollection("Facturas");
 
+        Document filter = new Document("nroFactura", nroFac);
+        Document update = new Document("$set", new Document("metodoPago", metodoP));
+        collection.updateOne(filter, update);
         Document filtro = new Document("nroFactura", nroFac);
         Document actualizacion = new Document("$set", new Document("condPago", "Paga"));
         collection.updateOne(filtro, actualizacion);
