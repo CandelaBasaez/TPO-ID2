@@ -1,21 +1,54 @@
 package app;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.LoggerContext;
 import funciones.*;
 import model.entity.Usuario;
+import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 
 import java.io.Console;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class App {
 
     public static void main(String[] args) {
+        LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+        Logger rootLogger = loggerContext.getLogger("org.mongodb.driver");
+        rootLogger.setLevel(Level.OFF);
+        LoggerContext loggerContext2 = (LoggerContext) LoggerFactory.getILoggerFactory();
+        Logger rootLogger2 = loggerContext2.getLogger("org.neo4j");
+        rootLogger2.setLevel(Level.OFF);
         System.out.println("Ingrese su DNI para acceder al sitio (Si no tiene una cuenta ingrese 0 para crear un usuario): ");
         Scanner iden = new Scanner(System.in);
         int dni = iden.nextInt();
         String permiso = funcionesUsuario.identificarUser(dni);
-        if (permiso == "Administrador"){
+
+        if (permiso == null) {
+            System.out.println("Creando un nuevo usuario");
+            Scanner document = new Scanner(System.in);
+            Scanner name = new Scanner(System.in);
+            Scanner surname = new Scanner(System.in);
+            Scanner address = new Scanner(System.in);
+            Scanner condIva = new Scanner(System.in);
+            System.out.println("Ingrese el DNI: ");
+            int dniUser = document.nextInt();
+            System.out.println("Ingrese el nombre: ");
+            String nombre = name.nextLine();
+            System.out.println("Ingrese el apellido: ");
+            String apellido = surname.nextLine();
+            System.out.println("Ingrese la direccion: ");
+            String direccion = address.nextLine();
+            System.out.println("Ingrese la condicion con respecto al IVA: ");
+            String condIVA = condIva.nextLine();
+            String permisos = "Cliente";
+
+            Usuario usuario = funcionesUsuario.crearUsuario(dniUser, nombre, apellido, condIVA, direccion, permisos);
+
+        }else if (permiso.equals("Administrador")){
             System.out.println("Te damos la bienvenida a la Libreria");
             System.out.println("1. Seleccionar Usuario");
             System.out.println("2. Ver usuarios por categorias");
@@ -32,6 +65,7 @@ public class App {
             int opcion = opc.nextInt();
 
             while (opcion != -1) {
+
                 if (opcion == 1) {
                     System.out.print("Ingrese el dni del usuario que desea buscar: ");
                     Scanner documento = new Scanner(System.in);
@@ -132,7 +166,7 @@ public class App {
 
                     opcion = opc.nextInt();
                 }
-        }else if (permiso == "Cliente"){
+        }else if (permiso.equals("Cliente")){
             System.out.println("Te damos la bienvenida a la Libreria");
             System.out.println("1. Ver Catalogo");
             System.out.println("2. Modificar Carrito");
@@ -148,12 +182,10 @@ public class App {
             if (opcion == 1) {
                 funcionesCatalogo.mostrarCatalogo();
             }else if (opcion == 2) {
-                System.out.print("Ingrese su DNI para modificar su carrito: ");
-                Scanner docu = new Scanner(System.in);
-                int denei = docu.nextInt();
                 System.out.println("1. Agregar producto");
                 System.out.println("2. Modificar cantidad de un producto");
                 System.out.println("3. Eliminar producto");
+                System.out.println("4. Ver el carrito");
                 System.out.println("0. Hacer pedido");
                 System.out.println("-1. Volver al menu principal");
                 System.out.print("Ingrese el número correspondiente a la accion que desea realizar: ");
@@ -161,17 +193,18 @@ public class App {
                 int seleccion = selec.nextInt();
                 while(seleccion!=-1) {
                     if (seleccion == 1) {
-                        funcionesPedidos.agregarAlCarrito(denei);
+                        funcionesPedidos.agregarAlCarrito(dni);
                     } else if (seleccion == 2) {
-                        funcionesPedidos.modificarCant(denei);
+                        funcionesPedidos.modificarCant(dni);
                     } else if (seleccion == 3) {
-                        funcionesPedidos.eliminarDelCarrito(denei);
-                    } else if(seleccion == 0){
-                        funcionesFacturas.crearFactura(denei);
+                        funcionesPedidos.eliminarDelCarrito(dni);
+                    } else if(seleccion == 4){
+                        funcionesPedidos.mostrarCarrito(dni);
+                    }else if(seleccion == 0){
+                        funcionesFacturas.crearFactura(dni);
                     }else{
                         System.out.println("El valor ingresado no es valido");
                     }
-                    funcionesPedidos.mostrarCarrito(denei);
                     System.out.print("Ingrese el número correspondiente a la accion que desea realizar: ");
                     seleccion = selec.nextInt();
                 }
@@ -194,26 +227,7 @@ public class App {
                 funcionesPagos.mostrarPagosPorUsuario(dni);
 
             }
-        }else if (permiso == null){
-            System.out.println("Creando un nuevo usuario");
-            Scanner document = new Scanner(System.in);
-            Scanner name = new Scanner(System.in);
-            Scanner surname = new Scanner(System.in);
-            Scanner address = new Scanner(System.in);
-            Scanner condIva = new Scanner(System.in);
-            System.out.println("Ingrese el DNI: ");
-            int dniUser = document.nextInt();
-            System.out.println("Ingrese el nombre: ");
-            String nombre = name.nextLine();
-            System.out.println("Ingrese el apellido: ");
-            String apellido = surname.nextLine();
-            System.out.println("Ingrese la direccion: ");
-            String direccion = address.nextLine();
-            System.out.println("Ingrese la condicion con respecto al IVA: ");
-            String condIVA = condIva.nextLine();
-            String permisos = "Cliente";
 
-            Usuario usuario = funcionesUsuario.crearUsuario(dniUser, nombre, apellido, condIVA, direccion,permisos);
         }else{
             System.out.println("El usuario con ese DNI no existe");
         }

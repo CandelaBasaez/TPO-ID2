@@ -11,8 +11,9 @@ import static model.entity.Usuario.cargarDesdeRedis;
 public class funcionesUsuario {
 
     public static String identificarUser(int dni){
+        String permiso = null;
         try (Jedis jedis = new Jedis("redis://localhost:6379")) {
-            String permiso = jedis.hget("usuario:" + dni, "permisos");
+            permiso = jedis.hget("usuario:" + dni, "permisos");
             return permiso;
         }
     }

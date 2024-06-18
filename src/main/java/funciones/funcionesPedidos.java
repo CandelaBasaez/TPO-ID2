@@ -99,14 +99,17 @@ public class funcionesPedidos {
     }
 
     public static void mostrarCarrito(int dni){
+        System.out.println("");
+        System.out.println("--------------------------------");
+        System.out.println("CARRITO");
         try (Driver driver = GraphDatabase.driver("bolt://localhost:7687", AuthTokens.basic("neo4j", "contraCande"))) {
             try (Session session = driver.session()) {
                 Result result = session.run("MATCH (c:Carrito{userDNI:"+ dni +"})-[r:TIENE]->(p:Producto) return p");
                 while (result.hasNext()) {
                     Record record = result.next();
-                    String nomProd = record.get("p").get("nombre").asString();
+                    int codProd = record.get("p").get("codigoProducto").asInt();
                     int precProd = record.get("p").get("precioUnitario").asInt();
-                    Result resultado = session.run("MATCH (c:Carrito{userDNI:"+ dni +"})-[r:TIENE]->(p:Producto{nombre:"+nomProd+"}) return r");
+                    Result resultado = session.run("MATCH (c:Carrito{userDNI:"+ dni +"})-[r:TIENE]->(p:Producto{codigoProducto:"+codProd+"}) return r");
                     Record dato = resultado.next();
                     int cantProd = dato.get("r").get("cant").asInt();
                     System.out.println("--------------------------------");
