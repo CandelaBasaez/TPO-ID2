@@ -28,6 +28,7 @@ public class App {
         String permiso = funcionesUsuario.identificarUser(dni);
 
         if (permiso == null) {
+            System.out.println("");
             System.out.println("Creando un nuevo usuario");
             Scanner document = new Scanner(System.in);
             Scanner name = new Scanner(System.in);
@@ -45,10 +46,13 @@ public class App {
             System.out.println("Ingrese la condicion con respecto al IVA: ");
             String condIVA = condIva.nextLine();
             String permis = "Cliente";
-
-            Usuario usuario = funcionesUsuario.crearUsuario(dniUser, nombre, apellido, condIVA, direccion, permis);
+            System.out.println(permis);
+            System.out.println("");
+            Usuario usuario = funcionesUsuario.crearUsuario(dniUser, nombre, apellido, condIVA, direccion, "Cliente");
+            System.out.println(usuario);
 
         }else if (permiso.equals("Administrador")){
+            System.out.println("");
             System.out.println("Te damos la bienvenida a la Libreria");
             System.out.println("1. Seleccionar Usuario");
             System.out.println("2. Ver usuarios por categorias");
@@ -67,15 +71,18 @@ public class App {
             while (opcion != -1) {
 
                 if (opcion == 1) {
+                    System.out.println("");
                     System.out.print("Ingrese el dni del usuario que desea buscar: ");
                     Scanner documento = new Scanner(System.in);
                     int dniUser = documento.nextInt();
                     Usuario usuario = Usuario.cargarDesdeRedis(dniUser);
+                    System.out.println("");
                     System.out.println(usuario);
-
+                    System.out.println("");
                 } else if (opcion == 2) {
                     int opCat = 0;
                     while (opCat != -1) {
+                        System.out.println("");
                         System.out.println("1. Todos los usuarios de categoria TOP");
                         System.out.println("2. Todos los usuarios de categoria MEDIUM");
                         System.out.println("3. Todos los usuarios de categoria LOW");
@@ -87,31 +94,42 @@ public class App {
                         opCat = categoria;
 
                         if (categoria == 1) {
+                            System.out.println("");
                             funcionesUsuario.mostrarUsuariosTOP();
                             System.out.println("--------------------------------");
+                            System.out.println("");
                         } else if (categoria == 2) {
+                            System.out.println("");
                             funcionesUsuario.mostrarUsuariosMEDIUM();
                             System.out.println("--------------------------------");
+                            System.out.println("");
                         } else if (categoria == 3) {
+                            System.out.println("");
                             funcionesUsuario.mostrarUsuariosLOW();
                             System.out.println("--------------------------------");
+                            System.out.println("");
                         } else {
+                            System.out.println("");
                             System.out.println("Se ha ingresado un dato erroneo");
                         }
                     }
 
                 } else if (opcion == 3) {
+                    System.out.println("");
                     System.out.print("Ingrese el DNI del usuario al que le quiere asignar una categoria: ");
                     Scanner doc = new Scanner(System.in);
                     int documento = doc.nextInt();
                     funcionesUsuario.asignarCategoriaUsuario(documento);
 
                 } else if (opcion == 4) {
+                    System.out.println("");
                     funcionesCatalogo.mostrarCatalogo();
+                    System.out.println("");
 
                 } else if (opcion == 5) {
                     int opModCat = 0;
                     while (opModCat != -1) {
+                        System.out.println("");
                         System.out.println("1. Modificar nombre de un producto");
                         System.out.println("2. Modificar descripcion de un producto");
                         System.out.println("3. Modificar precio por unidad de un producto");
@@ -123,31 +141,50 @@ public class App {
                         opModCat = opCt.nextInt();
 
                         if (opModCat == 1) {
+                            System.out.println("");
                             funcionesCatalogo.modificarNombreCatalogo();
+                            System.out.println("");
                         } else if (opModCat == 2) {
+                            System.out.println("");
                             funcionesCatalogo.modificarDescCatalogo();
+                            System.out.println("");
                         } else if (opModCat == 3) {
+                            System.out.println("");
                             funcionesCatalogo.modificarPrecioCatalogo();
+                            System.out.println("");
                         } else if (opModCat == 4) {
+                            System.out.println("");
                             funcionesCatalogo.agregarProducto();
+                            System.out.println("");
                         } else if (opModCat == 5) {
+                            System.out.println("");
                             funcionesCatalogo.eliminarProducto();
+                            System.out.println("");
                         } else {
+                            System.out.println("");
                             System.out.println("Se ha ingresado un dato erroneo");
                         }
                     }
                 }else if (opcion == 6) {
+                    System.out.println("");
                     System.out.print("Ingrese el DNI para buscar facturas asociadas: ");
                     Scanner doc = new Scanner(System.in);
                     int documento = doc.nextInt();
+                    System.out.println("");
                     funcionesFacturas.mostrarFacturas(documento);
+                    System.out.println("");
 
                 } else if (opcion == 7) {
+                    System.out.println("");
                     funcionesPagos.mostrarPagos();
+                    System.out.println("");
 
                 } else if (opcion == 8) {
+                    System.out.println("");
                     funcionesCatalogo.mostrarCambiosCatalogo();
+                    System.out.println("");
                 } else {
+                    System.out.println("");
                     System.out.println("Se ingreso un dato erroneo");
                 }
                     System.out.println("");
