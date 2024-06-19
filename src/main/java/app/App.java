@@ -44,9 +44,9 @@ public class App {
             String direccion = address.nextLine();
             System.out.println("Ingrese la condicion con respecto al IVA: ");
             String condIVA = condIva.nextLine();
-            String permisos = "Cliente";
+            String permis = "Cliente";
 
-            Usuario usuario = funcionesUsuario.crearUsuario(dniUser, nombre, apellido, condIVA, direccion, permisos);
+            Usuario usuario = funcionesUsuario.crearUsuario(dniUser, nombre, apellido, condIVA, direccion, permis);
 
         }else if (permiso.equals("Administrador")){
             System.out.println("Te damos la bienvenida a la Libreria");
@@ -166,6 +166,8 @@ public class App {
 
                     opcion = opc.nextInt();
                 }
+
+
         }else if (permiso.equals("Cliente")){
             System.out.println("Te damos la bienvenida a la Libreria");
             System.out.println("1. Ver Catalogo");
@@ -179,54 +181,93 @@ public class App {
             Scanner opc = new Scanner(System.in);
             int opcion = opc.nextInt();
 
-            if (opcion == 1) {
-                funcionesCatalogo.mostrarCatalogo();
-            }else if (opcion == 2) {
-                System.out.println("1. Agregar producto");
-                System.out.println("2. Modificar cantidad de un producto");
-                System.out.println("3. Eliminar producto");
-                System.out.println("4. Ver el carrito");
-                System.out.println("0. Hacer pedido");
-                System.out.println("-1. Volver al menu principal");
-                System.out.print("Ingrese el número correspondiente a la accion que desea realizar: ");
-                Scanner selec = new Scanner(System.in);
-                int seleccion = selec.nextInt();
-                while(seleccion!=-1) {
-                    if (seleccion == 1) {
-                        funcionesPedidos.agregarAlCarrito(dni);
-                    } else if (seleccion == 2) {
-                        funcionesPedidos.modificarCant(dni);
-                    } else if (seleccion == 3) {
-                        funcionesPedidos.eliminarDelCarrito(dni);
-                    } else if(seleccion == 4){
-                        funcionesPedidos.mostrarCarrito(dni);
-                    }else if(seleccion == 0){
-                        funcionesFacturas.crearFactura(dni);
-                    }else{
-                        System.out.println("El valor ingresado no es valido");
-                    }
+            while (opcion != -1) {
+                if (opcion == 1) {
+                    System.out.println("");
+                    funcionesCatalogo.mostrarCatalogo();
+                    System.out.println("");
+                } else if (opcion == 2) {
+                    System.out.println("");
+                    System.out.println("1. Agregar producto");
+                    System.out.println("2. Modificar cantidad de un producto");
+                    System.out.println("3. Eliminar producto");
+                    System.out.println("4. Ver el carrito");
+                    System.out.println("0. Hacer pedido");
+                    System.out.println("-1. Volver al menu principal");
                     System.out.print("Ingrese el número correspondiente a la accion que desea realizar: ");
-                    seleccion = selec.nextInt();
+                    Scanner selec = new Scanner(System.in);
+                    int seleccion = selec.nextInt();
+                    while (seleccion != -1) {
+                        if (seleccion == 1) {
+                            System.out.println("");
+                            funcionesPedidos.agregarAlCarrito(dni);
+                            System.out.println("");
+                        } else if (seleccion == 2) {
+                            System.out.println("");
+                            funcionesPedidos.modificarCant(dni);
+                            System.out.println("");
+                        } else if (seleccion == 3) {
+                            System.out.println("");
+                            funcionesPedidos.eliminarDelCarrito(dni);
+                            System.out.println("");
+                        } else if (seleccion == 4) {
+                            System.out.println("");
+                            funcionesPedidos.mostrarCarrito(dni);
+                            System.out.println("");
+                        } else if (seleccion == 0) {
+                            System.out.println("");
+                            funcionesFacturas.crearFactura(dni);
+                            System.out.println("");
+                        } else {
+                            System.out.println("");
+                            System.out.println("El valor ingresado no es valido");
+                        }
+                        System.out.println("");
+                        System.out.println("1. Agregar producto");
+                        System.out.println("2. Modificar cantidad de un producto");
+                        System.out.println("3. Eliminar producto");
+                        System.out.println("4. Ver el carrito");
+                        System.out.println("0. Hacer pedido");
+                        System.out.println("-1. Volver al menu principal");
+                        System.out.print("Ingrese el número correspondiente a la accion que desea realizar: ");
+                        seleccion = selec.nextInt();
+                    }
+
+                } else if (opcion == 3) {
+                    System.out.print("Ingrese el DNI para buscar facturas asociadas: ");
+                    Scanner doc = new Scanner(System.in);
+                    int documento = doc.nextInt();
+                    System.out.println("");
+                    funcionesFacturas.mostrarFacturas(documento);
+                    System.out.println("");
+                    System.out.print("Ingrese el numero de la factura que desea pagar: ");
+                    Scanner nF = new Scanner(System.in);
+                    int numF = nF.nextInt();
+                    funcionesFacturas.pagarFactura(numF);
+                    funcionesPagos.registrarPagoFactura(numF, dni);
+
+                } else if (opcion == 4) {
+                    System.out.println("");
+                    funcionesFacturas.mostrarFacturas(dni);
+                    System.out.println("");
+
+                } else if (opcion == 5) {
+                    System.out.println("");
+                    funcionesPagos.mostrarPagosPorUsuario(dni);
+                    System.out.println("");
+
                 }
-
-            }else if (opcion == 3) {
-                System.out.print("Ingrese el DNI para buscar facturas asociadas: ");
-                Scanner doc = new Scanner(System.in);
-                int documento = doc.nextInt();
-                funcionesFacturas.mostrarFacturas(documento);
-                System.out.print("Ingrese el numero de la factura que desea pagar: ");
-                Scanner nF= new Scanner(System.in);
-                int numF = nF.nextInt();
-                funcionesFacturas.pagarFactura(numF);
-                funcionesPagos.registrarPagoFactura(numF,dni);
-
-            }else if (opcion == 4) {
-                funcionesFacturas.mostrarFacturas(dni);
-
-            }else if (opcion == 5) {
-                funcionesPagos.mostrarPagosPorUsuario(dni);
-
+                System.out.println("Te damos la bienvenida a la Libreria");
+                System.out.println("1. Ver Catalogo");
+                System.out.println("2. Modificar Carrito");
+                System.out.println("3. Pagar factura");
+                System.out.println("4. Ver Registro de Facturas");
+                System.out.println("5. Ver Registro de Pagos");
+                System.out.println("-1. Salir del sistema");
+                System.out.print("Seleccione la acción a realizar: ");
+                opcion = opc.nextInt();
             }
+
 
         }else{
             System.out.println("El usuario con ese DNI no existe");
