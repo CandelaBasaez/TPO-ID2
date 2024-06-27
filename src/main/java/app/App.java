@@ -19,13 +19,10 @@ public class App {
         LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
         Logger rootLogger = loggerContext.getLogger("org.mongodb.driver");
         rootLogger.setLevel(Level.OFF);
-//        LoggerContext loggerContext2 = (LoggerContext) LoggerFactory.getILoggerFactory();
-//        Logger rootLogger2 = loggerContext2.getLogger("org.neo4j");
-//        rootLogger2.setLevel(Level.OFF);
         LoggerContext loggerContext2 = (LoggerContext)LoggerFactory.getILoggerFactory();
         Logger rootLogger2 = loggerContext2.getLogger("io.netty");
         rootLogger2.setLevel(ch.qos.logback.classic.Level.OFF);
-        System.out.println("Ingrese su DNI para acceder al sitio (Si no tiene una cuenta ingrese 0 para crear un usuario): ");
+        System.out.print("Ingrese su DNI para acceder al sitio (Si no tiene una cuenta ingrese 0 para crear un usuario): ");
         Scanner iden = new Scanner(System.in);
         int dni = iden.nextInt();
         String permiso = funcionesUsuario.identificarUser(dni);
