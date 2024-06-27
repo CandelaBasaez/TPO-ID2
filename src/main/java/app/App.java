@@ -95,7 +95,9 @@ public class App {
                         System.out.println("2. Todos los usuarios de categoria MEDIUM");
                         System.out.println("3. Todos los usuarios de categoria LOW");
                         System.out.println("-1. Volver al menu principal");
+                        System.out.println("");
                         System.out.print("Ingrese el número correspondiente a la categoria que desea visualizar: ");
+                        System.out.println("");
 
                         Scanner cat = new Scanner(System.in);
                         int categoria = cat.nextInt();
@@ -144,7 +146,9 @@ public class App {
                         System.out.println("4. Agregar producto");
                         System.out.println("5. Eliminar producto");
                         System.out.println("-1. Volver al menu principal");
+                        System.out.println("");
                         System.out.print("Ingrese el número correspondiente a la accion que desea realizar: ");
+                        System.out.println("");
                         Scanner opCt = new Scanner(System.in);
                         opModCat = opCt.nextInt();
 
@@ -239,7 +243,9 @@ public class App {
                     System.out.println("4. Ver el carrito");
                     System.out.println("0. Hacer pedido");
                     System.out.println("-1. Volver al menu principal");
+                    System.out.println("");
                     System.out.print("Ingrese el número correspondiente a la accion que desea realizar: ");
+                    System.out.println("");
                     Scanner selec = new Scanner(System.in);
                     int seleccion = selec.nextInt();
                     while (seleccion != -1) {
@@ -274,7 +280,9 @@ public class App {
                         System.out.println("4. Ver el carrito");
                         System.out.println("0. Hacer pedido");
                         System.out.println("-1. Volver al menu principal");
+                        System.out.println("");
                         System.out.print("Ingrese el número correspondiente a la accion que desea realizar: ");
+                        System.out.println("");
                         seleccion = selec.nextInt();
                     }
 
@@ -302,6 +310,7 @@ public class App {
                     System.out.println("");
 
                 }
+                System.out.println("");
                 System.out.println("Te damos la bienvenida a la Libreria");
                 System.out.println("1. Ver Catalogo");
                 System.out.println("2. Modificar Carrito");
@@ -311,6 +320,7 @@ public class App {
                 System.out.println("-1. Salir del sistema");
                 System.out.print("Seleccione la acción a realizar: ");
                 opcion = opc.nextInt();
+                System.out.println("");
             }
 
 
